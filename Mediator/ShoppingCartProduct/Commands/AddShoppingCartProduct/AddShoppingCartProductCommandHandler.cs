@@ -24,6 +24,7 @@ namespace ShopWebApi.Mediator
                 throw new NotFoundException($"Shopping cart with id '{command.ShoppingCartId}' was not found");
             Product product = await dbContext
                 .Products
+                .Include(p => p.Images)
                 .FirstOrDefaultAsync(p => p.Id == command.ProductId, cancellationToken);
             if (product == null)
                 throw new NotFoundException($"Product with id '{command.ProductId}' was not found");

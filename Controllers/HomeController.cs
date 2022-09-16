@@ -35,29 +35,10 @@ namespace ShopWebApi.Controllers
                 limit,
                 repository
                     .CreateQuery<Product>()
+                    .Include(p => p.Images)
                     .Select(p => new ProductResponseCheckedModel(p, Request, shoppingCart))
             );
             return Ok(productPaginator);
-        }
-        [HttpGet]
-        public IActionResult Users(int page = 1, int limit = 6)
-        {
-            if (limit > pageLimit)
-                return BadRequest();
-            IPaginator<UserResponseModel> usersPaginator = new Paginator<UserResponseModel>(
-                page,
-                limit,
-                repository
-                    .CreateQuery<User>()
-                    .Select(u => new UserResponseModel(u, Request))
-            );
-            return Ok(usersPaginator);
-        }
-        [HttpGet]
-        public IActionResult AddCookie(string key = "key", string value = "value")
-        {
-            HttpContext.Response.Cookies.Append(key, value);
-            return Ok(new { key, value });
         }
     }
 }

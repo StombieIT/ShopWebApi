@@ -30,6 +30,7 @@ namespace ShopWebApi.Mediator
                 .Include(scp => scp.ShoppingCart)
                     .ThenInclude(scp => scp.User)
                 .Include(scp => scp.Product)
+                    .ThenInclude(p => p.Images)
                 .Where(scp => scp.ShoppingCart.Id == shoppingCart.Id);
         }
     }

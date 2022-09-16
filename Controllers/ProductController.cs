@@ -27,15 +27,14 @@ namespace ShopWebApi.Controllers
             this.mediator = mediator;
         }
         [Route("/api/[controller]/{productId}")]
-        public IActionResult Index(Guid productId)
+        public async Task<IActionResult> Index(Guid productId)
         {
-            Product product = repository
-                .CreateQuery<Product>()
-                .Include(p => p.Comments)
-                    .ThenInclude(c => c.Author)
-                .FirstOrDefault(p => p.Id == productId);
+            Product product = await mediator.Send(new GetProductWithImagesQuery(productId));
             if (product == null)
-                return BadRequest(new ResponseModel(productId, "Товар не найден"));
+            {
+                ModelState.AddModelError(productId.ToString(), "Товар не найден");
+                return BadRequest(ModelState);
+            }
             return Ok(new ProductResponseModel(product, Request));
         }
         [HttpGet]

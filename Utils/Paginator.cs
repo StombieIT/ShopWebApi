@@ -22,6 +22,8 @@ namespace ShopWebApi.Utils
 
         public Paginator(int page, int limit, IQueryable<T> items)
         {
+            if (limit <= 0)
+                throw new ArgumentException("Limit cannot be 0");
             this.page = page;
             this.limit = limit;
             this.items = items;

@@ -22,6 +22,7 @@ namespace ShopWebApi.Mediator
                 .Include(scp => scp.ShoppingCart)
                     .ThenInclude(sc => sc.User)
                 .Include(scp => scp.Product)
+                    .ThenInclude(p => p.Images)
                 .FirstOrDefaultAsync(
                     scp =>
                         scp.Id == command.ShoppingCartProductId,

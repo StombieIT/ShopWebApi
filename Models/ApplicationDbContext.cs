@@ -15,6 +15,7 @@ namespace ShopWebApi.Models
         public DbSet<ShoppingCartProduct> ShoppingCartProducts { get; set; }
         public DbSet<Comment<Product>> ProductComments { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Image<Product>> ProductImages { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {}
         protected override void OnModelCreating(ModelBuilder builder)
@@ -26,6 +27,7 @@ namespace ShopWebApi.Models
             builder.ApplyConfiguration(new ShoppingCartProductConfiguration());
             builder.ApplyConfiguration(new CommentConfiguration<Product>(u => u.ProductComments, p => p.Comments));
             builder.ApplyConfiguration(new OrderConfiguration());
+            builder.ApplyConfiguration(new ImageConfiguration<Product>(p => p.Images));
             base.OnModelCreating(builder);
         }
     }

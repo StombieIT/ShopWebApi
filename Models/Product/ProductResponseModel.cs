@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ShopWebApi.Models
 {
@@ -11,7 +13,7 @@ namespace ShopWebApi.Models
         public decimal Price { get; set; }
         public decimal? Discount { get; set; }
         public DateTime CreationDate { get; set; }
-        public string ImageLink { get; set; }
+        public IEnumerable<ImageResponseModel<Product>> Images { get; set; }
         public ProductResponseModel()
         {}
         public ProductResponseModel(Product product, HttpRequest request)
@@ -22,9 +24,7 @@ namespace ShopWebApi.Models
             Price = product.Price;
             Discount = product.Discount;
             CreationDate = product.CreationDate;
-            ImageLink = product.ImageFileName != null
-                ? $"{request.Scheme}://{request.Host.Value.ToString()}/Images/{product.ImageFileName}"
-                : null;
+            Images = product.Images.Select(i => new ImageResponseModel<Product>(i, request));
         }
     }
 }
