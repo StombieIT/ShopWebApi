@@ -30,15 +30,16 @@ namespace ShopWebApi.Controllers
         [Route("/api/Products")]
         public async Task<IActionResult> Index(int page = 1, int limit = 6)
         {
-            User user = await mediator.Send(new GetUserByClaimsPrincipalQuery(User));
-            ShoppingCart shoppingCart = user?.ShoppingCarts?.FirstOrDefault();
+            IQueryable<Product> products
+                = await mediator.Send(new GetProductsWithImagesQuery());
+            User user
+                = await mediator.Send(new GetUserByClaimsPrincipalQuery(User));
+            ShoppingCart shoppingCart
+                = await mediator.Send(new GetShoppingCartWithParentsQuery(user?.Id ?? Guid.Empty));
             IPaginator<ProductResponseCheckedModel> productPaginator = new Paginator<ProductResponseCheckedModel>(
                 page,
                 limit,
-                repository
-                    .CreateQuery<Product>()
-                    .Include(p => p.Images)
-                    .Select(p => new ProductResponseCheckedModel(p, Request, shoppingCart))
+                products.Select(p => new ProductResponseCheckedModel(p, shoppingCart, Request))
             );
             return Ok(productPaginator);
         }
