@@ -7,6 +7,7 @@ using ShopWebApi.Mediator;
 using ShopWebApi.Models;
 using ShopWebApi.Utils;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,6 +52,7 @@ namespace ShopWebApi.Controllers
             shoppingCart = await mediator.Send(new AddShoppingCartCommand(user.Id));
             return Ok(new ShoppingCartResponseModel(shoppingCart, Request));
         }
+        [HttpGet]
         public async Task<IActionResult> Products(int page = 1, int limit = 6)
         {
             User user = await mediator.Send(new GetUserByClaimsPrincipalQuery(User));

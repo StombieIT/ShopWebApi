@@ -49,6 +49,7 @@ namespace ShopWebApi.Controllers
             }
             return Unauthorized();
         }
+        [HttpPost]
         public async Task<IActionResult> Register([FromBody] UserBodyModel model)
         {
             User user = await mediator.Send(new GetUserByLoginQuery(model.Login));
@@ -96,8 +97,6 @@ namespace ShopWebApi.Controllers
             );
             return Ok(new { AccessToken = new JwtSecurityTokenHandler().WriteToken(jwt) });
         }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult Secret() => Ok(new { Login = User.FindFirstValue("login") });
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> SignOut()

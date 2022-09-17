@@ -13,6 +13,7 @@ using System;
 using System.Text;
 using MediatR;
 using System.Reflection;
+using Microsoft.OpenApi.Models;
 
 namespace ShopWebApi
 {
@@ -61,6 +62,14 @@ namespace ShopWebApi
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+            services.AddSwaggerGen(options => {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Swagger Demo API",
+                    Description = "Api for working with shop",
+                    Version = "v1"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +93,12 @@ namespace ShopWebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Demo API");
+                options.RoutePrefix = "";
             });
         }
     }

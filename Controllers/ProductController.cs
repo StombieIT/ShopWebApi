@@ -26,7 +26,24 @@ namespace ShopWebApi.Controllers
             this.repository = repository;
             this.mediator = mediator;
         }
+        [HttpGet]
+        [Route("/api/Products")]
+        public async Task<IActionResult> Index(int page = 1, int limit = 6)
+        {
+            User user = await mediator.Send(new GetUserByClaimsPrincipalQuery(User));
+            ShoppingCart shoppingCart = user?.ShoppingCarts?.FirstOrDefault();
+            IPaginator<ProductResponseCheckedModel> productPaginator = new Paginator<ProductResponseCheckedModel>(
+                page,
+                limit,
+                repository
+                    .CreateQuery<Product>()
+                    .Include(p => p.Images)
+                    .Select(p => new ProductResponseCheckedModel(p, Request, shoppingCart))
+            );
+            return Ok(productPaginator);
+        }
         [Route("/api/[controller]/{productId}")]
+        [HttpGet]
         public async Task<IActionResult> Index(Guid productId)
         {
             Product product = await mediator.Send(new GetProductWithImagesQuery(productId));
