@@ -28,6 +28,7 @@ namespace ShopWebApi.Mediator
             if (productComment == null)
                 throw new NotFoundException($"Product comment with id '{command.ProductCommentId}' was not found");
             productComment.Text = command.Text;
+            productComment.Rating = command.Rating;
             productComment.UpdateDate = DateTime.Now;
             dbContext.Update(productComment);
             await dbContext.SaveChangesAsync(cancellationToken);

@@ -40,7 +40,8 @@ namespace ShopWebApi.Mediator
             {
                 Object = product,
                 Author = user,
-                Text = command.Text
+                Text = command.Text,
+                Rating = command.Rating
             };
             await dbContext.AddAsync(productComment, cancellationToken);
             await dbContext.SaveChangesAsync(cancellationToken);

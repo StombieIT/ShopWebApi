@@ -28,6 +28,7 @@ namespace ShopWebApi.Models
             builder.Property(c => c.CreationDate).IsRequired();
             builder.HasOne(c => c.Author).WithMany(getAuthorCommentsField).IsRequired();
             builder.HasOne(c => c.Object).WithMany(getObjectCommentsField).IsRequired();
+            builder.Property(c => c.Rating).IsRequired().ValueGeneratedNever();
             builder.Property(c => c.UpdateDate).IsRequired(false);
         }
     }

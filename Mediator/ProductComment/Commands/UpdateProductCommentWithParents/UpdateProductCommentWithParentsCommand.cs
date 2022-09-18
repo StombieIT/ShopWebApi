@@ -9,10 +9,12 @@ namespace ShopWebApi.Mediator
     {
         public Guid ProductCommentId { get; set; }
         public string Text { get; set; }
-        public UpdateProductCommentWithParentsCommand(Guid productCommentId, string text)
+        public int Rating { get; set; }
+        public UpdateProductCommentWithParentsCommand(Guid productCommentId, string text, int rating)
         {
             ProductCommentId = productCommentId;
             Text = text;
+            Rating = rating;
         }
         public UpdateProductCommentWithParentsCommand()
         {}

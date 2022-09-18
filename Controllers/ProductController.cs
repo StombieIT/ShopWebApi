@@ -91,7 +91,7 @@ namespace ShopWebApi.Controllers
             }
             User user = await mediator.Send(new GetUserByClaimsPrincipalQuery(User));
             Comment<Product> productComment =
-                await mediator.Send(new AddProductCommentCommand(product.Id, user.Id, model.Text));
+                await mediator.Send(new AddProductCommentCommand(product.Id, user.Id, model.Text, model.Rating));
             return Ok(new ProductCommentResponseModel(productComment, Request));
         }
         [Authorize]
@@ -113,7 +113,7 @@ namespace ShopWebApi.Controllers
                 return StatusCode(403, ModelState);
             }
             productComment
-                = await mediator.Send(new UpdateProductCommentWithParentsCommand(productComment.Id, model.Text));
+                = await mediator.Send(new UpdateProductCommentWithParentsCommand(productComment.Id, model.Text, model.Rating));
             return Ok(new ProductCommentResponseModel(productComment, Request));
         }
         [HttpDelete("{commentId}")]
