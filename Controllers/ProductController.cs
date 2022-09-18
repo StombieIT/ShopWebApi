@@ -31,7 +31,7 @@ namespace ShopWebApi.Controllers
         public async Task<IActionResult> Index(int page = 1, int limit = 6)
         {
             IQueryable<Product> products
-                = await mediator.Send(new GetProductsWithImagesQuery());
+                = await mediator.Send(new GetProductsWithParentsQuery());
             User user
                 = await mediator.Send(new GetUserByClaimsPrincipalQuery(User));
             ShoppingCart shoppingCart

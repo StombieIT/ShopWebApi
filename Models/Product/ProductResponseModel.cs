@@ -14,8 +14,6 @@ namespace ShopWebApi.Models
         public decimal? Discount { get; set; }
         public DateTime CreationDate { get; set; }
         public IEnumerable<ImageResponseModel<Product>> Images { get; set; }
-        public ProductResponseModel()
-        {}
         public ProductResponseModel(Product product, HttpRequest request)
         {
             Id = product.Id;

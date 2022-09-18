@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ShopWebApi.Mediator
 {
-    public class GetProductsWithImagesQuery
+    public class GetProductsWithParentsQuery
         : IRequest<IQueryable<Product>>
     {}
 }

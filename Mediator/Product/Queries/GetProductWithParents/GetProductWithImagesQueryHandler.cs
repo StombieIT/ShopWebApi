@@ -16,6 +16,7 @@ namespace ShopWebApi.Mediator
             => await dbContext
                 .Products
                 .Include(p => p.Images)
+                .Include(p => p.Comments)
                 .FirstOrDefaultAsync(
                     p => p.Id == query.ProductId,
                     cancellationToken

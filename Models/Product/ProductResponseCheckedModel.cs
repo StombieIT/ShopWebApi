@@ -5,7 +5,8 @@ using System.Security.Claims;
 
 namespace ShopWebApi.Models
 {
-    public class ProductResponseCheckedModel : ProductResponseModel
+    public class ProductResponseCheckedModel
+        : ProductWithRatingResponseModel
     {
         public bool IsInShoppingCart { get; set; }
         public ProductResponseCheckedModel(Product product, ShoppingCart shoppingCart, HttpRequest request)
